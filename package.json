@@ -1,0 +1,26 @@
+{
+  "name": "game-engine",
+  "version": "0.0.1",
+  "description": "A simple game engine used in my tutorial",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "grunt",
+    "game",
+    "engine"
+  ],
+  "author": "Leland Ede",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lede701/game-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lede701/game-engine/issues"
+  },
+  "homepage": "https://github.com/lede701/game-engine#readme"
+}
