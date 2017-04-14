@@ -1,6 +1,7 @@
 //Grintfile.js
 module.exports = (g) => {
 	g.initConfig({
+		pkg: g.file.readJSON('package.json'),
 		copy: {
 			main: {
 				files: [
@@ -24,7 +25,8 @@ module.exports = (g) => {
 	g.loadNpmTasks('grunt-contrib-watch');
 	// Register the default task and display a basic menu
 	g.registerTask('default', 'Hello demo', function(){
-		g.log.writeln('Hello world!');
+		var pkg = g.file.readJSON('package.json');
+		g.log.writeln('Demo JS Game Engine ' + pkg.version);
 	});
 	
 };
