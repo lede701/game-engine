@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/lede701/game-engine/issues"
   },
-  "homepage": "https://github.com/lede701/game-engine#readme"
+  "homepage": "https://github.com/lede701/game-engine#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
 }
