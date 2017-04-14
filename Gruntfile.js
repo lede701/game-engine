@@ -26,7 +26,9 @@ module.exports = (g) => {
 	// Register the default task and display a basic menu
 	g.registerTask('default', 'Hello demo', function(){
 		var pkg = g.file.readJSON('package.json');
-		g.log.writeln('Demo JS Game Engine ' + pkg.version);
+		g.log.writeln('Demo JS Game Engine ' + pkg.version + "\n\n");
+		g.log.writeln('watch: Watch the source directory for any changes and then run build task');
+		g.log.writeln('copy: Copy simple source files to the build directory');
 	});
 	
 };
