@@ -2,13 +2,20 @@
 module.exports = (g) => {
 	g.initConfig({
 		pkg: g.file.readJSON('package.json'),
+		pw: g.file.readJSON('.ftppass'),
+		bundle: {
+			core:{
+				src: 'src/<%= pkg.name %>.js',
+				dest: 'build/js/<%= pkg.name %>-<%= pkg.version %>.js'
+			}
+		},
 		copy: {
 			main: {
 				files: [
 					{
 						expand: true,
 						cwd: 'src',
-						src: ['**'],
+						src: ['*.html'],
 						dest: 'build/'
 					}
 				]
@@ -17,7 +24,7 @@ module.exports = (g) => {
 		watch:{
 			src:{
 				files: ['src//**/*'],
-				tasks: ['copy']
+				tasks: ['copy','bundle']
 			}
 		}
 	});
