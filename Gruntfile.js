@@ -1,12 +1,18 @@
 //Grintfile.js
-module.exports = (g) => {
+module.exports = function(g) {
 	g.initConfig({
 		pkg: g.file.readJSON('package.json'),
 		pw: g.file.readJSON('.ftppass'),
 		bundle: {
 			core:{
-				src: 'src/<%= pkg.name %>.js',
+				src: 'src/js/<%= pkg.name %>.js',
 				dest: 'build/js/<%= pkg.name %>-<%= pkg.version %>.js'
+			}
+		},
+		jshint:{
+			src: ['<%= bundle.core.dest %>', 'Gruntfile.js'],
+			options:{
+				jshintrc: '.jshintrc'
 			}
 		},
 		copy: {
@@ -23,13 +29,17 @@ module.exports = (g) => {
 		},
 		watch:{
 			src:{
-				files: ['src//**/*'],
-				tasks: ['copy','bundle']
+				files: ['Gruntfile.js', 'src//**/*'],
+				tasks: ['copy','bundle', 'jshint']
 			}
 		}
 	});
+	g.loadNpmTasks('grunt-bundle');
 	g.loadNpmTasks('grunt-contrib-copy');
+	g.loadNpmTasks('grunt-contrib-jshint');
+	g.loadNpmTasks('grunt-contrib-uglify');
 	g.loadNpmTasks('grunt-contrib-watch');
+	
 	// Register the default task and display a basic menu
 	g.registerTask('default', 'Hello demo', function(){
 		var pkg = g.file.readJSON('package.json');
