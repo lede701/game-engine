@@ -1,27 +1,152 @@
-﻿function entity(cfg) {
+﻿function Entity(cfg) {
 	var me = this;
 
-	if (cfg !== undefined) {
-		me.init(cfg);
-	}
+	// Items that can be provided by the config object
+	////////////////////////////////////////////////////
+	me._translate = new Translate({
+		position: { x: 0, y: 0 },
+		rotation: 0,
+		scale: { x: 1.0, y: 1.0 }
+	});
+	me._speed = new Vector2D();
 
-	me.init = function(cfg){
-		Object.assign(cfg);
-	};
+	me.init = function (cfg) {
+		if (cfg.translate !== undefined) {
+			this._translate.init(cfg.translate);
+			delete cfg.translate;
+		}
 
-	me.update = function (deltaTime) {
-
+		Object.assign(me, cfg);
 	};
 
 	me.draw = function (ctx) {
 		// Default entity has nothing to draw
 	};
 
-	me.engineDraw = function (ctx) {
-		// Need to perform all translation and rotation to entity
-
-		// Call the entity draw method
-
-		// Restore context
+	me.update = function (deltaTime) {
+		// Update method to be overloaded
+		// Do some basic speed calculations
+		var pos = this._translate.position();
+		pos.x += this._speed.x;
+		pos.y += this._speed.y;
 	};
+
+	if (cfg !== undefined) {
+		me.init(cfg);
+	}
+
+	// Code that should be provided as part of the config
+	///////////////////////////////////////////////////////
+	me._children = [];
+	me._nextId = 0;
+	me.id = -1;
+	me._180PI = Math.PI / 180; // Constant so I don't have to calulate this every frame
+
+
+	me.add = function (child) {
+		if (this._children.push !== undefined) {
+			var idx = me.idx + ":" + me._nextId++;
+			child.id = idx;
+			this._children.push(child);
+			child._parent = this;
+		}
+	};
+
+	me.compare = function (ent) {
+		var ret = 0;
+		var eIds = this.id.split(':');
+		var mIds = this.id.split(':');
+		if (eIds[eItds.length - 1] > mItds[mIds.length - 1]) {
+			ret = 1;
+		} else if (eIds[eItds.length - 1] < mItds[mIds.length - 1]) {
+			ret = -1;
+		}
+
+		return ret;
+	};
+
+
+
+	me.engineDraw = function (ctx) {
+		// Save contex state
+		ctx.save();
+		var pos = new Vector2D(me.translate().position().x, me.translate().position().y);
+
+		var rot = me.translate().rotation() * me._180PI;
+		ctx.translate(pos.x, pos.y);
+		if (rot !== 0) {
+			ctx.rotate(rot);
+		}
+
+		var oldAlpha = ctx.globalAlpha;
+		ctx.globalAlpha = me.alpha;
+
+		this.draw(ctx);
+		if (me._children.length > 0) {
+			for (var i = 0; i < me._children.length; ++i) {
+				me._children[i].entity.engineDraw(ctx);
+			}
+		}
+
+		if (rot !== 0) {
+			ctx.rotate(-rot);
+		}
+		if (this.drawPivotPt) {
+			var oldStyle = ctx.fillStyle;
+			ctx.fillStyle = '#00dd00';
+			ctx.beginPath();
+			ctx.arc(0, 0, 3, 0, 2 * Math.PI, false);
+			ctx.fill();
+			ctx.closePath();
+		}
+
+		ctx.translate(-pos.x, -pos.y);
+		ctx.globalAlpha = oldAlpha;
+		// Restore context state
+		ctx.restore();
+	};
+
+	// Do not overwrite this module it will break the parent child relationship!
+	me.engineUpdate = function (deltaTime) {
+		this.update(deltaTime);
+		if (this._children.length > 0) {
+			for (var i = 0; i < this._children.length; ++i) {
+				this._children[i].engineUpdate(deltaTime);
+			}
+		}
+	};
+
+	// Remove child form children list
+	me.rm = function (id) {
+		ent = null;
+		if (id !== undefined) {
+			for (var i = 0; i < this._children.length; ++i) {
+				if (this._children[i].id === id) {
+					// Remove item from the array
+					ent = this._children.slice(i, 1);
+					// Unparent entity
+					ent.parent = null;
+					// Stop searching we have found the entity
+					break;
+				}
+			}
+		}
+
+		return ent;
+	};
+
+	me.speed = function (spd) {
+		if (spd !== undefined) {
+			if (spd.x !== undefined) {
+				me._speed.x = spd.x;
+			}
+			if (spd.y !== undefined) {
+				me._speed.y = spd.y;
+			}
+		}
+
+		return me._speed;
+	};
+	
+
 }

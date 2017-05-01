@@ -5,12 +5,6 @@ function GEngine(cfg){
 
 	me.fps = 30;
 
-	// Check if config is an object
-	if (cfg !== undefined) {
-		// Call auto initilization
-		me.init(cfg);
-	}
-
 	// Initialize game-engine core code
 	me.init = function(cfg){
 		// Start the engine
@@ -21,6 +15,13 @@ function GEngine(cfg){
 		}
 		me._isRunning = true;
 	};
+
+	// Check if config is an object
+	if (cfg !== undefined) {
+		// Call auto initilization
+		me.init(cfg);
+	}
+
 	///// Define all ening values that are not suppose 
 	me._isRunning = false;
 
