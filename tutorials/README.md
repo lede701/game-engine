@@ -3,7 +3,7 @@ To build each tutorial just rename the src folder in the main project folder and
 
 ### Example
 C:\grunt>rename src src-mainline
-C:\grunt>copy tutorials\tutorial03\src src 
+C:\grunt>xcopy tutorials\tutorial03\src\*.* src\ /e
 
 
 ## Note
