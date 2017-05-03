@@ -1,8 +1,10 @@
 # Game-Engine
 
-This project is for a tutorial that can be found at http://www.zaxisstudios.com/blog-roll/tutorial-getting-started-with-node-js.html
+This project is for a tutorial that can be found at https://www.zaxisstudios.com/blog-roll/tutorial-getting-started-with-node-js.html
 
-Tutorial 2
+<a href="https://www.zaxisstudios.com/blog-roll/next-steps-in-nodejs-grunt.html">Tutorial 2</a>
+<a href="https://www.zaxisstudios.com/blog-roll/tutorial-javascript-game-loop.html">Tutorial 3</a>
+<a href="https://www.zaxisstudios.com/blog-roll/tutorial-drawing-and-updating-with-canvas.html">Tutorial 4</a>
 
 ## Installation
 
