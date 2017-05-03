@@ -2,6 +2,8 @@
 
 This project is for a tutorial that can be found at http://www.zaxisstudios.com/blog-roll/tutorial-getting-started-with-node-js.html
 
+Tutorial 2
+
 ## Installation
 
 First clone the project either by downloading the zip file and decompressing it into your own project folder or using the git command to clone this project.
@@ -13,6 +15,16 @@ npm update
 This will install all the development libraries 
 
 #Version Notes
+
+## Version 1.1.2 Notes
+Updated the GEngine class and completed the basic engine functionality.
+Added and fixed bugs in the Entity class
+Added EntityCircle class
+Added tutorial folders
+Added demo code for tutorial 3
+Added demo code for tutorial 4
+Added Tranlsate class
+Added Vector2D class
 
 ## Version 1.0.2 Notes
 Added task to minimize the js file and create a map file for debugging
