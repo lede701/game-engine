@@ -10,7 +10,7 @@ module.exports = function(g) {
 			}
 		},
 		jshint:{
-			src: ['<%= bundle.core.dest %>', 'Gruntfile.js'],
+			src: ['src/js/**/*.js', '!src/js/<%= pkg.name %>.js','<%= bundle.core.dest %>', 'Gruntfile.js'],
 			options:{
 				jshintrc: '.jshintrc'
 			}
@@ -21,19 +21,31 @@ module.exports = function(g) {
 					{
 						expand: true,
 						cwd: 'src',
-						src: ['*.html'],
-						dest: 'build/'
+						src: ['**/*.html'],
+						dest: 'build'
 					}
 				]
 			}
 		},
+		uglify:{
+			options:{
+				banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("mm/dd/yyyy") %> */\n/// Programmed by Leland Ede lede@zaxis-studios.com\n',
+				sourceMap: true
+			},
+			build:{
+				files: {
+					'build/js/<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= bundle.core.dest %>']
+				}
+			}
+		},		
 		watch:{
 			src:{
 				files: ['Gruntfile.js', 'src//**/*'],
-				tasks: ['copy','bundle', 'jshint']
+				tasks: ['copy','bundle', 'jshint', 'uglify']
 			}
 		}
 	});
+	
 	g.loadNpmTasks('grunt-bundle');
 	g.loadNpmTasks('grunt-contrib-copy');
 	g.loadNpmTasks('grunt-contrib-jshint');

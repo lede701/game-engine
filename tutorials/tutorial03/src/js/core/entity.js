@@ -27,8 +27,8 @@
 		// Update method to be overloaded
 		// Do some basic speed calculations
 		var pos = this._translate.position();
-		pos.x += this._speed.x * deltaTime;
-		pos.y += this._speed.y * deltaTime;
+		pos.x += this._speed.x;
+		pos.y += this._speed.y;
 	};
 
 	if (cfg !== undefined) {
@@ -70,9 +70,9 @@
 	me.engineDraw = function (ctx) {
 		// Save contex state
 		ctx.save();
-		var pos = new Vector2D({ x:this.translate().position().x, y: this.translate().position().y });
+		var pos = new Vector2D(me.translate().position().x, me.translate().position().y);
 
-		var rot = this.translate().rotation() * me._180PI;
+		var rot = me.translate().rotation() * me._180PI;
 		ctx.translate(pos.x, pos.y);
 		if (rot !== 0) {
 			ctx.rotate(rot);
@@ -148,7 +148,5 @@
 		return me._speed;
 	};
 	
-	me.translate = function () {
-		return me._translate;
-	};
+
 }
