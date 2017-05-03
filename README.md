@@ -14,28 +14,28 @@ npm update
 
 This will install all the development libraries 
 
-#Version Notes
+## Version Notes
 
-## Version 1.1.2 Notes
-Updated the GEngine class and completed the basic engine functionality.
-Added and fixed bugs in the Entity class
-Added EntityCircle class
-Added tutorial folders
-Added demo code for tutorial 3
-Added demo code for tutorial 4
-Added Tranlsate class
-Added Vector2D class
+### Version 1.1.2 Notes
+* Updated the GEngine class and completed the basic engine functionality.
+* Added and fixed bugs in the Entity class
+* Added EntityCircle class
+* Added tutorial folders
+* Added demo code for tutorial 3
+* Added demo code for tutorial 4
+* Added Tranlsate class
+* Added Vector2D class
 
-## Version 1.0.2 Notes
-Added task to minimize the js file and create a map file for debugging
+### Version 1.0.2 Notes
+* Added task to minimize the js file and create a map file for debugging
 
-## Version 1.0.1 Notes
-Changed the boiler plate tasks for grunt and now have the basic grunt watch that will build the JavaScript application.
-Added basic core modules for js project.
-Added grunt task to bundle game-engine.js file
-Added core folder
-Added engine.js module for the start of the gEngine class
+### Version 1.0.1 Notes
+* Changed the boiler plate tasks for grunt and now have the basic grunt watch that will build the JavaScript application.
+* Added basic core modules for js project.
+* Added grunt task to bundle game-engine.js file
+* Added core folder
+* Added engine.js module for the start of the gEngine class
 
-## Version 0.0.1 Notes
+### Version 0.0.1 Notes
 
-Basic project setup and inclusion into the VCS.  Include the basic npm setup file.
+* Basic project setup and inclusion into the VCS.  Include the basic npm setup file.

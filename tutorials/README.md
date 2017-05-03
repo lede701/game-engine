@@ -7,4 +7,4 @@ C:\grunt>xcopy tutorials\tutorial03\src\*.* src\ /e
 
 
 ## Note
-Make sure your not running grunt watch while renaming and coping files.
+Make sure your not running grunt watch while renaming and coping files.  Grunt locks the files and folders and will causes erorrs when you try to make changes to the direcotry.
