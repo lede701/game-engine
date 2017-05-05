@@ -5,7 +5,7 @@ This project is for a tutorial that can be found at https://www.zaxisstudios.com
 <a href="https://www.zaxisstudios.com/blog-roll/next-steps-in-nodejs-grunt.html">Tutorial 2</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-javascript-game-loop.html">Tutorial 3</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-drawing-and-updating-with-canvas.html">Tutorial 4</a><br />
-<a href="https://www.zaxisstudios.com/blog-roll/tutorial-more-canvas.html">TTutorial 4</a><br />
+<a href="https://www.zaxisstudios.com/blog-roll/tutorial-more-canvas.html">Tutorial 5</a><br />
 
 ## Installation
 
