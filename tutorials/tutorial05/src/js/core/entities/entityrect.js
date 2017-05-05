@@ -1,13 +1,16 @@
-﻿function EntityCircle(cfg) {
+﻿function EntityRect(cfg) {
 	var me = this;
 	var ent = new Entity(cfg);
 
-	me.radius = 10;
+	me.rect = { x: 0, y: 0, w: 80, h: 80 };
 	me.color = '#000000';
 	me.lineColor = null;
 	me.lineWidth = null;
 
 	Object.assign(me, ent);
+	// Calculate the center point of our object
+	this.pivot.x = ((this.rect.x + this.rect.w) / 2);
+	this.pivot.y = ((this.rect.y + this.rect.h) / 2);
 
 	me.draw = function (ctx) {
 		var oldStyle = ctx.fillStyle;
@@ -17,22 +20,21 @@
 			ctx.strokeStyle = this.lineColor;
 		}
 
-		// Access entity pivot point for drawing arc
+		var r = this.rect;
 		var p = this.pivot;
-
-		ctx.beginPath();
-		// Draw arc with the adjusted pivot point
-		ctx.arc(-p.x, -p.y, this.radius, 0, 2 * Math.PI);
-		ctx.closePath();
-
 		if (this.color !== null) {
 			ctx.fillStyle = this.color;
-			ctx.fill();
+			ctx.fillRect(r.x - p.x, r.y - p.y, r.w, r.h);
 		}
 
 		if (oldStroke !== null) {
-			ctx.stroke();
+			var lw = ctx.lineWidth;
+			if (this.lineWidth !== null) {
+				ctx.lineWidth = this.lineWidth;
+			}
+			ctx.strokeRect(r.x - p.x, r.y - p.y, r.w, r.h);
 			ctx.strokeStyle = oldStroke;
+			ctx.lineWidth = lw;
 		}
 
 		ctx.fillStyle = oldStyle;
