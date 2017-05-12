@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Tutorial 05</title>
+	<script src="../js/game-engine-1.1.2.js"></script>
+	<script>
+		window.onload = start;
+		function start() {
+			var game = new GEngine({
+				world:{
+					canvasSize: { x: 400, y: 300 },
+					fullWindow: true
+				},
+				canvasId: 'theEngine',
+				fps: 60
+			});
+			var box = new EntityRect({
+				color: '#ff0000',
+				translate: {
+					position: {x: 300, y: 150}
+				},
+				drawPivotPt: true
+			});
+			box.update = function (dt) {
+				var newRot = (this.translate().rotation() + 0.5) % 360;
+				this.translate().rotation(newRot);
+			};
+			game.add(box);
+			game.run();
+		}
+	</script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="theEngine"></canvas>
+</body>
+</html>
