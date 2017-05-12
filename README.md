@@ -6,6 +6,7 @@ This project is for a tutorial that can be found at https://www.zaxisstudios.com
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-javascript-game-loop.html">Tutorial 3</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-drawing-and-updating-with-canvas.html">Tutorial 4</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-more-canvas.html">Tutorial 5</a><br />
+<a href="https://www.zaxisstudios.com/blog-roll/tutorial-power-in-the-scene.html">Tutorial 6</a><br />
 
 ## Installation
 
@@ -18,6 +19,12 @@ npm update
 This will install all the development libraries 
 
 ## Version Notes
+
+### Version 1.2.1 Notes
+* Added Scene class
+* Moved all entity management to the scene class
+* Added scene stack to game engine class
+* Added scene management tools to game engine class
 
 ### Version 1.1.2 Notes
 * Updated the GEngine class and completed the basic engine functionality.
