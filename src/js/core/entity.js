@@ -96,12 +96,12 @@
 		}
 
 		var oldAlpha = ctx.globalAlpha;
-		ctx.globalAlpha = me.alpha;
+		ctx.globalAlpha = this.alpha;
 
 		this.draw(ctx);
-		if (me._children.length > 0) {
+		if (this._children.length > 0) {
 			for (var i = 0; i < me._children.length; ++i) {
-				me._children[i].engineDraw(ctx);
+				this._children[i].engineDraw(ctx);
 			}
 		}
 
@@ -111,7 +111,7 @@
 		// Check to see if we want to add a dot for the pivot point
 		if (this.drawPivotPt) {
 			var oldStyle = ctx.fillStyle;
-			ctx.fillStyle = me.pivotColor;
+			ctx.fillStyle = this.pivotColor;
 			ctx.beginPath();
 			ctx.arc(0, 0, 3, 0, 2 * Math.PI, false);
 			ctx.closePath();

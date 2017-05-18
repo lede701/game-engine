@@ -11,8 +11,10 @@
 		me.addEvent('ready');
 		me.addEvent('click');
 		me.addEvent('mousemove');
+		me.addEvent('keypress');
 		document.onclick = me.handleClick;
 		document.onmousemove = me.handleMove;
+		document.onkeypress = me.handleKeyPress;
 	};// End init
 
 	me.addEvent = function (type) {
@@ -38,6 +40,11 @@
 	me.handleClick = function (evt) {
 		me.handle('click', evt);
 	};// End handleClick
+
+	me.handleKeyPress = function (e) {
+		me.handle('keypress', e);
+		return false;
+	};
 
 	me.handleMove = function (evt) {
 		me.handle('mousemove', evt);

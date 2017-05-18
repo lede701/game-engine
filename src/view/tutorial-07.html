@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Tutorial 05</title>
-	<script src="../js/game-engine-1.2.1.js"></script>
+	<script src="../js/game-engine-1.3.2.js"></script>
 	<script>
 		window.onload = start;
 		var game;
@@ -27,9 +27,19 @@
 			});
 			box.pivot.x = 0;
 			box.update = function (dt) {
-				var newRot = (this.translate().rotation() + 0.5) % 360;
+				var newRot = (this.translate().rotation() + 1) % 360;
 				this.translate().rotation(newRot);
 			};
+			scene.add(box);
+			box = new EntityRect({
+				color: '#202020',
+				translate: {
+					position: { x: 0, y: 500 }
+				},
+				rect: { x: 0, y: 0, w: game.world.canvasSize.x, h: game.world.canvasSize.y - 500 }
+			});
+			box.pivot.x = 0;
+			box.pivot.y = 0;
 			scene.add(box);
 
 			// Add current scene to game engine
@@ -43,9 +53,14 @@
 						position: pos
 					},
 					radius: 5,
-					age: 120,
-					tage: 0
+					age: 480,
+					tage: 0,
+					gravity: 0.1,
+					color: '#0000dd'
 				});// End circle entity definition
+				cir.speed().y = (Math.random() * 5.0) - 4;
+				cir.speed().x = (Math.random() * 6.0) - 3;
+				cir.oldUpdate = cir.update;
 				cir.update = function (dt) {
 					if (this.tage++ > this.age) {
 						var g = this.gengine();
@@ -53,10 +68,30 @@
 						g.rm(this.id);
 						this.tage = -9999;
 					}
+					cir.speed().y += this.gravity;
+					cir.oldUpdate(dt);
+					this.radius = Math.max(0, 15 * (1.0 - (this.tage / this.age)));
+					this.alpha = Math.max(0.1, 1.0 - (this.tage / this.age));
+					var pos = this.translate().position();
+					if (pos.y + (this.radius / 2) > 500 && this.speed().y > 0) {
+						this.speed().y *= -0.8;
+						this.translate().position().y = 500 - (this.radius / 2);
+					}
+					if (pos.x < (this.radius / 2) || pos.x > game.world.canvasSize.x) {
+						this.speed().x *= -1;
+					}
 				};
 				game.add(cir);
 			}
 			game.events().on('click', handleClick);
+			game.events().on('keypress', function (e) {
+				if (e.which == 32) {
+					e.clientX = game.world.canvasSize.x / 2;
+					e.clientY = 100;
+					handleClick(e);
+					return false;
+				}
+			});
 		}
 	</script>
 	<style>

@@ -60,12 +60,18 @@ function GEngine(cfg){
 		if (me._events === undefined) {
 			me._events = new GameEvents({ parent: me });
 		}
+		var e = me.events();
+		// Add core game engine events
+		e.addEvent('onscene');
+		e.addEvent('removeentity');
+		e.addEvent('removescene');
+		e.addEvent('shutdown');
 
 		// Check if autoRun is true
 		if (me.autoRun) {
 			me.run();
 		}// Endif autoRun
-		me.events().handle('ready', { engine: me });
+		e.handle('ready', { engine: me });
 	};
 
 	me.events = function () {
@@ -88,6 +94,9 @@ function GEngine(cfg){
 		var old = me._scene[me._scene.length - 1];
 		scene.init({ _parent: me });
 		me._scene.push(scene);
+		// Notify system a new scene has been loaded
+		var evt = { type: 'onscene', old: old, active: scene };
+		me.events().handle('onscene', evt);
 		return old;
 	};
 
@@ -117,7 +126,9 @@ function GEngine(cfg){
 	// Remove top scene from stack
 	me.popScene = function () {
 		if (me._scene.length > 0) {
-			return me._scene.pop();
+			var scene = me._scene.pop();
+			me.events().handle('removescene', { old: scene });
+			return scene;
 		}
 	};
 	
@@ -126,6 +137,9 @@ function GEngine(cfg){
 		var ent = null;
 		if (me.getScene() !== null) {
 			ent = me.getScene().rm(id);
+			if (ent !== null) {
+				me.events().handle('removeentity', { entity: ent });
+			}
 		}
 		return ent;
 	};
@@ -154,6 +168,7 @@ function GEngine(cfg){
 				me.run();
 			}// Endif wait time is greater than 0
 		} else {
+			me.event.handle('shutdown', {});
 			console.log('Closing engine down');
 		}// Endif engine is runing
 		if (me.runLoop++ > 500) {
@@ -163,6 +178,7 @@ function GEngine(cfg){
 	
 	// Update scene world
 	me.update = function () {
+		// TODO: Calculate delta time
 		if (me.getScene() !== null) {
 			me.getScene().update(1.0);
 		}
