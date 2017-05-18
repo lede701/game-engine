@@ -7,6 +7,7 @@ This project is for a tutorial that can be found at https://www.zaxisstudios.com
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-drawing-and-updating-with-canvas.html">Tutorial 4</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-more-canvas.html">Tutorial 5</a><br />
 <a href="https://www.zaxisstudios.com/blog-roll/tutorial-power-in-the-scene.html">Tutorial 6</a><br />
+<a href="https://www.zaxisstudios.com/blog-roll/tutorial-game-engine-events.html">Tutorial 7</a><br />
 
 ## Installation
 
@@ -19,6 +20,12 @@ npm update
 This will install all the development libraries 
 
 ## Version Notes
+
+### Version 1.3.1 Notes
+* Added access to game engine from entity base class
+* Fixed bug in remove entity from scene
+* Added new GameEvent to game egnine
+* Create tutorial 7 html file
 
 ### Version 1.2.1 Notes
 * Added Scene class

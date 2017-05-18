@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Tutorial 05</title>
+	<script src="../js/game-engine-1.2.1.js"></script>
+	<script>
+		window.onload = start;
+		var game;
+		function start() {
+			game = new GEngine({
+				world:{
+					canvasSize: { x: 400, y: 300 },
+					fullWindow: true
+				},
+				clearColor: '#d2d2d2',
+				canvasId: 'theEngine',
+				fps: 60
+			});
+			var scene = new Scene();
+
+			var box = new EntityRect({
+				color: '#ff0000',
+				translate: {
+					position: {x: 300, y: 150}
+				},
+				drawPivotPt: true
+			});
+			box.pivot.x = 0;
+			box.update = function (dt) {
+				var newRot = (this.translate().rotation() + 0.5) % 360;
+				this.translate().rotation(newRot);
+			};
+			scene.add(box);
+
+			// Add current scene to game engine
+			game.addScene(scene);
+			game.run();
+
+			function handleClick(evt) {
+				var pos = { x: evt.clientX, y: evt.clientY };
+				var cir = new EntityCircle({
+					translate: {
+						position: pos
+					},
+					radius: 5,
+					age: 120,
+					tage: 0
+				});// End circle entity definition
+				cir.update = function (dt) {
+					if (this.tage++ > this.age) {
+						var g = this.gengine();
+						console.log('Goodbye! ' + this.id);
+						g.rm(this.id);
+						this.tage = -9999;
+					}
+				};
+				game.add(cir);
+			}
+			game.events().on('click', handleClick);
+		}
+	</script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="theEngine"></canvas>
+</body>
+</html>

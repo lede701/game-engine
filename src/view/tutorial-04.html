@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	<script src="../js/game-engine-1.1.2.js"></script>
+	<script>
+		function start() {
+			var game = new GEngine({
+				world:{
+					canvasSize: { x: 400, y: 300 },
+					fullWindow: false
+				},
+				canvasId: 'theEngine',
+				fps: 60
+			});
+			var cir = new EntityCircle({
+				color: '#ff0000',
+				translate: { 
+					position: {x: 300, y: 150}
+				}
+			});
+			//*
+			cir.speed({ x: 3.0, y: 0.0 });
+			cir.orgUpdate = cir.update;
+			cir.update = function (dt) {
+				var pos = cir.translate().position();
+				if (pos.x > (game.world.canvasSize.x - 10) || pos.x < 10) {
+					cir._speed.x *= -1;
+					if (pos.x < 10) {
+						pos.x = 10;
+					} else {
+						pos.x = game.world.canvasSize.x - 10;
+					}
+				}
+				cir.orgUpdate(dt);
+			};
+			//*/
+			game.add(cir);
+			game.run();
+		}
+	</script>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body onload="start();">
+	<canvas id="theEngine"></canvas>
+</body>
+</html>
