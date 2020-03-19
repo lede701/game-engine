@@ -2,7 +2,6 @@
 module.exports = function(g) {
 	g.initConfig({
 		pkg: g.file.readJSON('package.json'),
-		pw: g.file.readJSON('.ftppass'),
 		bundle: {
 			core:{
 				src: 'src/js/<%= pkg.name %>.js',

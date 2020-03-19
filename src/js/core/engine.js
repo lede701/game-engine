@@ -1,66 +1,71 @@
 //engine.js 
 function GEngine(cfg){
 	// Create a link to myself
-	var me = this;
+	var ge = this;
 
-	me.autoRun = false;
-	me.canvas = null;
-	me.canvasId = 'theEngine';
-	me.contextType = '2d';
-	me.ctx = null;
-	me.fps = 30;
-	me.world = {
+	ge.autoRun = false;
+	ge.canvas = null;
+	ge.canvasId = 'theEngine';
+	ge.contextType = '2d';
+	ge.ctx = null;
+	ge.fps = 30;
+	ge.world = {
 		size: null,
 		canvasSize: null,
 		fullWindow: true
 	};
 
 	///// Define all ening values that are not settable 
-	me._isRunning = false;
+	ge._isRunning = false;
 	// Current game scene
-	me._scene = [];
-	me._events = new GameEvents({ _parent: me });
+	ge._scene = [];
+	ge._events = new GameEvents({ _parent: ge });
 
 	// Initialize game-engine core code
-	me.init = function (cfg) {
+	ge.init = function (cfg) {
 		// Assign config to me
 		if(Object.assign !== undefined){
-			Object.assign(me, cfg);
+			Object.assign(ge, cfg);
 		}
 		// Startup canvas
-		me.canvas = document.getElementById(me.canvasId);
-		if (me.canvas === null) {
-			// TODO: Auto add canvas to the body of site
-			console.log(me.canvas);
+		ge.canvas = document.getElementById(ge.canvasId);
+		if (ge.canvas === null) {
+			console.log("Adding canvas to scene");
+			// Add new canvas object to body of page
+			var canvas = document.createElement("canvas");
+			canvas.id = ge.canvasId;
+			var body = document.getElementsByTagName("body");
+			body[0].appendChild(canvas);
+			ge.canvas = canvas;
 		}// Endif me.canvas is null
 
 		// Try and get context from canvas
-		me.ctx = me.canvas.getContext(me.contextType.toLowerCase());
-		if (me.ctx !== null && me.ctx !== undefined) {
-			me._isRunning = true;
+		ge.ctx = ge.canvas.getContext(ge.contextType.toLowerCase());
+		if (ge.ctx !== null && ge.ctx !== undefined) {
+			ge._isRunning = true;
 			// Check if we need to set the canvas size
-			if (me.world.canvasSize === null) {
-				me.world.canvasSize = new Vector2D({ x: me.canvas.clientWidth, y: me.canvas.clientHeight });
+			if (ge.world.canvasSize === null) {
+				ge.world.canvasSize = new Vector2D({ x: ge.canvas.clientWidth, y: ge.canvas.clientHeight });
 			} else {
 				// Set canvas to size of world
-				me.canvas.width = me.world.canvasSize.x;
-				me.canvas.height = me.world.canvasSize.y;
+				ge.canvas.width = ge.world.canvasSize.x;
+				ge.canvas.height = ge.world.canvasSize.y;
 			}
-			if (me.world.fullWindow) {
+			if (ge.world.fullWindow) {
 				// Change canvas to fill the window
-				me.world.canvasSize.x = window.innerWidth;
-				me.world.canvasSize.y = window.innerHeight;
-				me.canvas.width = me.world.canvasSize.x;
-				me.canvas.height = me.world.canvasSize.y;
+				ge.world.canvasSize.x = window.innerWidth;
+				ge.world.canvasSize.y = window.innerHeight;
+				ge.canvas.width = ge.world.canvasSize.x;
+				ge.canvas.height = ge.world.canvasSize.y;
 			}
 			// TODO: Add splash screen
 		}// Enduf ctx is not null
 
 		// Verify the event object isn't undefined
-		if (me._events === undefined) {
-			me._events = new GameEvents({ parent: me });
+		if (ge._events === undefined) {
+			ge._events = new GameEvents({ parent: ge });
 		}
-		var e = me.events();
+		var e = ge.events();
 		// Add core game engine events
 		e.addEvent('onscene');
 		e.addEvent('removeentity');
@@ -68,119 +73,122 @@ function GEngine(cfg){
 		e.addEvent('shutdown');
 
 		// Check if autoRun is true
-		if (me.autoRun) {
-			me.run();
+		if (ge.autoRun) {
+			ge.run();
 		}// Endif autoRun
-		e.handle('ready', { engine: me });
+		e.handle('ready', { engine: ge });
 	};
 
-	me.events = function () {
-		return me._events;
+	ge.events = function () {
+		return ge._events;
 	};
 
 	// Check if config is an object
 	if (cfg !== undefined) {
 		// Call auto initilization
-		me.init(cfg);
+		ge.init(cfg);
 	}
 
 	// Add entity to the current scene
-	me.add = function (ent) {
-		me.getScene().add(ent);
+	ge.add = function (ent) {
+		ge.getScene().add(ent);
 	};
 
 	// Add a new scene and return the existing one
-	me.addScene = function (scene) {
-		var old = me._scene[me._scene.length - 1];
-		scene.init({ _parent: me });
-		me._scene.push(scene);
+	ge.addScene = function (scene) {
+		var old = ge._scene[ge._scene.length - 1];
+		scene.init({ _parent: ge });
+		ge._scene.push(scene);
 		// Notify system a new scene has been loaded
 		var evt = { type: 'onscene', old: old, active: scene };
-		me.events().handle('onscene', evt);
+		ge.events().handle('onscene', evt);
 		return old;
 	};
 
 	// Draw the game world
-	me.draw = function () {
-		if (me.getScene() !== null) {
-			if (me.clearColor !== undefined) {
-				var oldStyle = me.ctx.fillStyle;
-				me.ctx.fillStyle = me.clearColor;
-				me.ctx.fillRect(0, 0, me.world.canvasSize.x, me.world.canvasSize.y);
-				me.ctx.fillStyle = oldStyle;
+	ge.draw = function () {
+		if (ge.getScene() !== null) {
+			if (ge.clearColor !== undefined) {
+				var oldStyle = ge.ctx.fillStyle;
+				ge.ctx.fillStyle = ge.clearColor;
+				ge.ctx.fillRect(0, 0, ge.world.canvasSize.x, ge.world.canvasSize.y);
+				ge.ctx.fillStyle = oldStyle;
 			} else {
-				me.ctx.clearRect(0, 0, me.world.canvasSize.x, me.world.canvasSize.y);
+				ge.ctx.clearRect(0, 0, ge.world.canvasSize.x, ge.world.canvasSize.y);
 			}
-			me.getScene().draw(me.ctx);
+			ge.getScene().draw(ge.ctx);
 		}
 	};
 
-	me.getScene = function () {
-		if (me._scene.length === 0) {
-			me.addScene(new Scene());
+	ge.getScene = function () {
+		if (ge._scene.length === 0) {
+			ge.addScene(new Scene());
 		}
 
-		return me._scene[me._scene.length - 1];
+		return ge._scene[ge._scene.length - 1];
 	};
 
 	// Remove top scene from stack
-	me.popScene = function () {
-		if (me._scene.length > 0) {
-			var scene = me._scene.pop();
-			me.events().handle('removescene', { old: scene });
+	ge.popScene = function () {
+		if (ge._scene.length > 0) {
+			var scene = ge._scene.pop();
+			ge.events().handle('removescene', { old: scene });
 			return scene;
 		}
 	};
 	
 	// Remove entity from scene
-	me.rm = function (id) {
+	ge.rm = function (id) {
 		var ent = null;
-		if (me.getScene() !== null) {
-			ent = me.getScene().rm(id);
+		if (ge.getScene() !== null) {
+			ent = ge.getScene().rm(id);
 			if (ent !== null) {
-				me.events().handle('removeentity', { entity: ent });
+				ge.events().handle('removeentity', { entity: ent });
 			}
 		}
 		return ent;
 	};
 
-	me.runLoop = 0;
+	ge.runLoop = 0;
 
-	me.run = function () {
+	ge.run = function () {
 		// Start frame timer
 		var t0 = performance.now();
 		// Perform the basic update/physics algorithm
-		me.update();
+		ge.update();
 		// Perform drawing entities to the canvas
-		me.draw();
+		ge.draw();
 		// End performance timer of frame
 		var t1 = performance.now();
 		// Check if the engine is still running
-		if (me._isRunning) {
+		if (ge._isRunning) {
 			// Calculate the amount of time to wait
-			var waitTime = (1000 / me.fps) - (t1 - t0);
+			var waitTime = (1000 / ge.fps) - (t1 - t0);
 			if (waitTime > 0) {
 				// We have time to burn so set the callback funtion
-				setTimeout(me.run, waitTime);
+				setTimeout(ge.run, waitTime);
 			} else {
 				// We have a problem it is taking longer to render one frame then we expected
 				console.error('Error ran out of time in frame');
-				me.run();
+				ge.run();
 			}// Endif wait time is greater than 0
 		} else {
-			me.event.handle('shutdown', {});
+			ge.event.handle('shutdown', {});
 			console.log('Closing engine down');
 		}// Endif engine is runing
-		if (me.runLoop++ > 500) {
+
+		// Used in debugging game engine and stopping it after 500 frames
+		ge.runLoop = (ge.runLoop + 1) % 2000;
+		if (ge.runLoop > 500) {
 			//me._isRunning = false;
 		}
 	};
 	
 	// Update scene world
-	me.update = function () {
+	ge.update = function () {
 		// TODO: Calculate delta time
-		if (me.getScene() !== null) {
-			me.getScene().update(1.0);
+		if (ge.getScene() !== null) {
+			ge.getScene().update(1.0);
 		}
 	};
 	

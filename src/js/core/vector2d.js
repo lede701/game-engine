@@ -1,20 +1,20 @@
 ﻿function Vector2D(cfg) {
-	var me = this;
+	var ve = this;
 
-	me.x = 0.0;
-	me.y = 0.0;
+	ve.x = 0.0;
+	ve.y = 0.0;
 
 	if (cfg !== undefined) {
 		// Make sure x, y are defined
 		if (cfg.x !== undefined) {
-			me.x = cfg.x;
+			ve.x = cfg.x;
 		}
 		if (cfg.y !== undefined) {
-			me.y = cfg.y;
+			ve.y = cfg.y;
 		}
 	}
 
-	me.toString = function () {
-		return '[' + me.x + ', ' + me.y + ']';
+	ve.toString = function () {
+		return '[' + ve.x + ', ' + ve.y + ']';
 	};
 }

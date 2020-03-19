@@ -1,46 +1,46 @@
 ﻿function Scene(cfg) {
-	var me = this;
+	var scn = this;
 	
-	me._entityList = [];
-	me._nextId = 1;
-	me._MAXID = 2000000; // Max entity id in scene
+	scn._entityList = [];
+	scn._nextId = 1;
+	scn._MAXID = 2000000; // Max entity id in scene
 
-	me.init = function (cfg) {
-		Object.assign(me, cfg);
+	scn.init = function (cfg) {
+		Object.assign(scn, cfg);
 	};
 
-	me.add = function (ent) {
+	scn.add = function (ent) {
 		// Make sure we have a valid entity
 		if (ent !== undefined && ent !== null) {
-			ent.id = me._nextId;
-			me._nextId = (me._nextId + 1) % me._MAXID;
-			ent._parent = me;
-			if (me._entityList.push !== undefined) {
-				me._entityList.push(ent);
+			ent.id = scn._nextId;
+			scn._nextId = (scn._nextId + 1) % scn._MAXID;
+			ent._parent = scn;
+			if (scn._entityList.push !== undefined) {
+				scn._entityList.push(ent);
 			} else {
 				// Going to add the entity to our list the old fashion way
-				me._entityList[me._entityList.length + 1] = ent;
+				scn._entityList[scn._entityList.length + 1] = ent;
 				console.log('Entity added the old fashion way');
 			}
 		}
 	};
 
-	me.draw = function (ctx) {
-		if (me._entityList.length > 0) {
-			for (var i = 0; i < me._entityList.length; ++i) {
-				me._entityList[i].engineDraw(ctx);
+	scn.draw = function (ctx) {
+		if (scn._entityList.length > 0) {
+			for (var i = 0; i < scn._entityList.length; ++i) {
+				scn._entityList[i].engineDraw(ctx);
 			}
 		}
 	};
 
-	me.rm = function (id) {
+	scn.rm = function (id) {
 		var ent = null;
 		// Check if the id is valid
 		if (id !== undefined && id !== null) {
 			// Brute force our way through the list
-			for (var i = 0; i < me._entityList.length; ++i) {
-				if (id === me._entityList[i].id) {
-					ent = me._entityList.splice(i, 1);
+			for (var i = 0; i < scn._entityList.length; ++i) {
+				if (id === scn._entityList[i].id) {
+					ent = scn._entityList.splice(i, 1);
 					break;
 				}
 			}
@@ -49,15 +49,15 @@
 		return ent;
 	};
 
-	me.update = function (deltaTime) {
-		if (me._entityList.length > 0) {
-			for (var i = 0; i < me._entityList.length; ++i) {
-				me._entityList[i].engineUpdate(1.0);
+	scn.update = function (deltaTime) {
+		if (scn._entityList.length > 0) {
+			for (var i = 0; i < scn._entityList.length; ++i) {
+				scn._entityList[i].engineUpdate(1.0);
 			}
 		}
 	};
 
 	if (cfg !== undefined) {
-		me.init(cfg);
+		scn.init(cfg);
 	}
 }

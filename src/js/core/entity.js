@@ -1,33 +1,33 @@
 ﻿function Entity(cfg) {
-	var me = this;
+	var ent = this;
 
 	// Items that can be provided by the config object
 	////////////////////////////////////////////////////
-	me._parent = null;
-	me._translate = new Translate({
+	ent._parent = null;
+	ent._translate = new Translate({
 		position: { x: 0, y: 0 },
 		rotation: 0,
 		scale: { x: 1.0, y: 1.0 }
 	});
-	me._speed = new Vector2D();
-	me.drawPivotPt = false;
-	me.pivot = new Vector2D({ x: 0, y: 0 });
-	me.pivotColor = '#00ff00';// Added pivot color for completeness so users can change color if needed.
+	ent._speed = new Vector2D();
+	ent.drawPivotPt = false;
+	ent.pivot = new Vector2D({ x: 0, y: 0 });
+	ent.pivotColor = '#00ff00';// Added pivot color for completeness so users can change color if needed.
 
-	me.init = function (cfg) {
+	ent.init = function (cfg) {
 		if (cfg.translate !== undefined) {
 			this._translate.init(cfg.translate);
 			delete cfg.translate;
 		}
 
-		Object.assign(me, cfg);
+		Object.assign(ent, cfg);
 	};
 
-	me.draw = function (ctx) {
+	ent.draw = function (ctx) {
 		// Default entity has nothing to draw
 	};
 
-	me.gengine = function () {
+	ent.gengine = function () {
 		var p = this._parent;
 		var eng = null;
 		if (p !== null) {
@@ -40,7 +40,7 @@
 		return eng;
 	};
 
-	me.update = function (deltaTime) {
+	ent.update = function (deltaTime) {
 		// Update method to be overloaded
 		// Do some basic speed calculations
 		var pos = this._translate.position();
@@ -49,27 +49,27 @@
 	};
 
 	if (cfg !== undefined) {
-		me.init(cfg);
+		ent.init(cfg);
 	}
 
 	// Code that should be provided as part of the config
 	///////////////////////////////////////////////////////
-	me._children = [];
-	me._nextId = 0;
-	me.id = -1;
-	me._180PI = Math.PI / 180; // Constant so I don't have to calulate this every frame
+	ent._children = [];
+	ent._nextId = 0;
+	ent.id = -1;
+	ent._180PI = Math.PI / 180; // Constant so I don't have to calulate this every frame
 
 
-	me.add = function (child) {
+	ent.add = function (child) {
 		if (this._children.push !== undefined) {
-			var idx = me.idx + ":" + me._nextId++;
+			var idx = ent.idx + ":" + ent._nextId++;
 			child.id = idx;
 			this._children.push(child);
 			child._parent = this;
 		}
 	};
 
-	me.compare = function (ent) {
+	ent.compare = function (ent) {
 		var ret = 0;
 		var eIds = this.id.split(':');
 		var mIds = this.id.split(':');
@@ -84,12 +84,12 @@
 
 
 
-	me.engineDraw = function (ctx) {
+	ent.engineDraw = function (ctx) {
 		// Save contex state
 		ctx.save();
 		var pos = new Vector2D({ x:this.translate().position().x, y: this.translate().position().y });
 
-		var rot = this.translate().rotation() * me._180PI;
+		var rot = this.translate().rotation() * ent._180PI;
 		ctx.translate(pos.x, pos.y);
 		if (rot !== 0) {
 			ctx.rotate(rot);
@@ -100,7 +100,7 @@
 
 		this.draw(ctx);
 		if (this._children.length > 0) {
-			for (var i = 0; i < me._children.length; ++i) {
+			for (var i = 0; i < ent._children.length; ++i) {
 				this._children[i].engineDraw(ctx);
 			}
 		}
@@ -126,7 +126,7 @@
 	};
 
 	// Do not overwrite this module it will break the parent child relationship!
-	me.engineUpdate = function (deltaTime) {
+	ent.engineUpdate = function (deltaTime) {
 		this.update(deltaTime);
 		if (this._children.length > 0) {
 			for (var i = 0; i < this._children.length; ++i) {
@@ -136,7 +136,7 @@
 	};
 
 	// Remove child form children list
-	me.rm = function (id) {
+	ent.rm = function (id) {
 		ent = null;
 		if (id !== undefined) {
 			for (var i = 0; i < this._children.length; ++i) {
@@ -154,20 +154,20 @@
 		return ent;
 	};
 
-	me.speed = function (spd) {
+	ent.speed = function (spd) {
 		if (spd !== undefined) {
 			if (spd.x !== undefined) {
-				me._speed.x = spd.x;
+				ent._speed.x = spd.x;
 			}
 			if (spd.y !== undefined) {
-				me._speed.y = spd.y;
+				ent._speed.y = spd.y;
 			}
 		}
 
-		return me._speed;
+		return ent._speed;
 	};
 	
-	me.translate = function () {
-		return me._translate;
+	ent.translate = function () {
+		return ent._translate;
 	};
 }
