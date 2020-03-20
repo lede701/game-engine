@@ -20,6 +20,7 @@ function GEngine(cfg){
 	// Current game scene
 	ge._scene = [];
 	ge._events = new GameEvents({ _parent: ge });
+	ge._input = null;
 
 	// Initialize game-engine core code
 	ge.init = function (cfg) {
@@ -58,6 +59,7 @@ function GEngine(cfg){
 				ge.canvas.width = ge.world.canvasSize.x;
 				ge.canvas.height = ge.world.canvasSize.y;
 			}
+			ge._input = new GEInput({ gengine: ge });
 			// TODO: Add splash screen
 		}// Enduf ctx is not null
 
@@ -118,6 +120,10 @@ function GEngine(cfg){
 			}
 			ge.getScene().draw(ge.ctx);
 		}
+	};
+
+	ge.getInput = function () {
+		return ge._input;
 	};
 
 	ge.getScene = function () {

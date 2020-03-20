@@ -37,6 +37,7 @@
     <Folder Include="view" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="js\core\input.js" />
     <Content Include="view\tutorial-08.html" />
   </ItemGroup>
 </Project>
