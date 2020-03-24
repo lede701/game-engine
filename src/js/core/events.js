@@ -10,11 +10,6 @@
 		// Initialize the event system
 		ev.addEvent('ready');
 		ev.addEvent('click');
-		ev.addEvent('mousemove');
-		ev.addEvent('keypress');
-		document.onclick = ev.handleClick;
-		document.onmousemove = ev.handleMove;
-		document.onkeypress = ev.handleKeyPress;
 	};// End init
 
 	ev.addEvent = function (type) {
@@ -36,19 +31,6 @@
 			}
 		}
 	};// End handle
-
-	ev.handleClick = function (evt) {
-		ev.handle('click', evt);
-	};// End handleClick
-
-	ev.handleKeyPress = function (e) {
-		ev.handle('keypress', e);
-		return false;
-	};
-
-	ev.handleMove = function (evt) {
-		ev.handle('mousemove', evt);
-	};// End handleMove
 
 	ev.nextId = function () {
 		// Get next id

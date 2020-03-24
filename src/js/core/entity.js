@@ -43,9 +43,9 @@
 	ent.update = function (deltaTime) {
 		// Update method to be overloaded
 		// Do some basic speed calculations
-		var pos = this._translate.position();
-		pos.x += this._speed.x * deltaTime;
-		pos.y += this._speed.y * deltaTime;
+		var pos = ent._translate.position();
+		pos.x += ent._speed.x * deltaTime;
+		pos.y += ent._speed.y * deltaTime;
 	};
 
 	if (cfg !== undefined) {
@@ -169,5 +169,13 @@
 	
 	ent.translate = function () {
 		return ent._translate;
+	};
+
+	ent.ToRadians = function (angle) {
+		if (Math.PI180 === undefined) {
+			console.log("Calculating PI180");
+			Math.PI180 = Math.PI / 180;
+		}
+		return Math.PI180 * angle;
 	};
 }

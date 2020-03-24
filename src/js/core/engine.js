@@ -19,7 +19,7 @@ function GEngine(cfg){
 	ge._isRunning = false;
 	// Current game scene
 	ge._scene = [];
-	ge._events = new GameEvents({ _parent: ge });
+	ge._events = undefined;
 	ge._input = null;
 
 	// Initialize game-engine core code
@@ -54,12 +54,11 @@ function GEngine(cfg){
 			}
 			if (ge.world.fullWindow) {
 				// Change canvas to fill the window
-				ge.world.canvasSize.x = window.innerWidth;
-				ge.world.canvasSize.y = window.innerHeight;
+				ge.world.canvasSize.x = window.innerWidth-20;
+				ge.world.canvasSize.y = window.innerHeight-25;
 				ge.canvas.width = ge.world.canvasSize.x;
 				ge.canvas.height = ge.world.canvasSize.y;
 			}
-			ge._input = new GEInput({ gengine: ge });
 			// TODO: Add splash screen
 		}// Enduf ctx is not null
 
@@ -67,6 +66,8 @@ function GEngine(cfg){
 		if (ge._events === undefined) {
 			ge._events = new GameEvents({ parent: ge });
 		}
+		// Setup input system
+		ge._input = new GEInput({ parent: ge });
 		var e = ge.events();
 		// Add core game engine events
 		e.addEvent('onscene');
@@ -79,6 +80,7 @@ function GEngine(cfg){
 			ge.run();
 		}// Endif autoRun
 		e.handle('ready', { engine: ge });
+		Math.PI180 = Math.PI / 180;
 	};
 
 	ge.events = function () {

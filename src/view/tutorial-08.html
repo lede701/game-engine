@@ -5,6 +5,8 @@
 	<script src="../js/game-engine-1.3.2.js"></script>
 	<script>
 		window.onload = startup;
+		var game;
+		var scene;
 		function startup(e) {
 			game = new GEngine({
 				world: {
@@ -15,8 +17,10 @@
 				fps: 60
 			});
 
-			var scene = game.getScene();
+			scene = game.getScene();
 			var worldSize = game.world.canvasSize;
+			var nextFire = 0;
+			var fireCoolDown = 30;
 			
 
 			var box = new EntityRect({
@@ -25,20 +29,70 @@
 					position: { x: worldSize.x / 2, y: worldSize.y / 2 }
 				},
 				rect: {
-					x: 0, y: 0, w: 50, h: 30
+					x: 0, y: 0, w: 25, h: 50
 				},
-				drawPivotPt: true
+				drawPivotPt: false
 			});
 			box.update = function (dt) {
-				var newRot = (this.translate().rotation() + 1) % 360;
+				var inp = game.getInput();
+				var speedFactor = inp.GetInput('Horizontal') * dt * 4.0;
+				var newRot = (this.translate().rotation() + speedFactor) % 360;
 				this.translate().rotation(newRot);
+				// Check if fire1 is down
+				var fire = inp.GetInput("Fire1");
+				if (fire > 0 && nextFire <= 0) {
+					Fire(box);
+					nextFire = fireCoolDown;
+				}
+				nextFire = Math.max(nextFire - (1.0 * dt), 0);
 			};
-			box.pivot.x = 10;
+			box.pivot.y = 50;
+
 			scene.add(box);
 
-			console.log(game.getInput());
-
 			game.run();
+		}
+
+		function Fire(ent) {
+			console.log("FIRE!");
+			var projectile = new EntityCircle({
+				radius: 5.0,
+				color: "#68ff22",
+				age: 80
+			});
+			var rot = ent.translate().rotation();
+			var pos = new Vector2D(ent.translate().position());
+
+			var radians = ent.ToRadians(rot);
+			var sinX = Math.sin(radians);
+			var cosY = Math.cos(radians);
+
+			// Adjust start position by 50 pixels
+			pos.x += sinX * 50;
+			pos.y -= cosY * 50;
+
+			// Calculate projectiles vector based on speed
+			var speed = -4.0;
+			var sx = -speed * sinX;
+			var sy = speed * cosY;
+
+			// Save original update for projectile
+			var parentUpdate = projectile.update;
+			// Creating new update method that calls the old one
+			projectile.update = function (dt) {
+				parentUpdate(dt);
+				// Check if projectile should die
+				if (projectile.age-- <= 0) {
+					scene.rm(projectile.id);
+				}
+			};
+
+			// Set projectiles 
+			projectile.speed(new Vector2D({ x: sx, y: sy }));
+			projectile.translate().position(pos);
+			projectile.translate().rotation(rot);
+
+			scene.add(projectile);
 		}
 	</script>
 </head>
