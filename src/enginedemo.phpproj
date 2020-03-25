@@ -34,10 +34,15 @@
     <Folder Include="js\core\entities" />
     <Folder Include="js\core" />
     <Folder Include="js" />
+    <Folder Include="js\core\input\" />
     <Folder Include="view" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="js\core\input.js" />
+    <Content Include="js\core\input\controller.js" />
+    <Content Include="js\core\input\gamepad.js" />
+    <Content Include="js\core\input\keyboard.js" />
+    <Content Include="js\core\input\mouse.js" />
     <Content Include="view\tutorial-08.html" />
   </ItemGroup>
 </Project>
