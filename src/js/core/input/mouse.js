@@ -1,7 +1,11 @@
 ﻿function GEMouse(cfg) {
 	var gem = this;
 
+	gem.Init = function (cfg) {
+
+	};
+
 	if (cfg !== undefined) {
-		get.Init();
+		gem.Init();
 	}
 }

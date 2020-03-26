@@ -19,16 +19,16 @@
 			// Get controller object
 			var ctrl = gec.Controls[type];
 			// Convert the key to keyCode
-			var keyOn = gec.ToKeyCode(ctrl.KEYON);
-			var keyOff = gec.ToKeyCode(ctrl.KEYOFF);
+			var keyOn = this.ToKeyCode(ctrl.KEYON);
+			var keyOff = this.ToKeyCode(ctrl.KEYOFF);
 			// Set return value as default
 			retVal = ctrl.Default;
 			// Check if the on key is pressed
-			if (ctrl.KEYON !== undefined && gec.GetKeyDown(keyOn)) {
+			if (ctrl.KEYON !== undefined && this.GetKeyDown(keyOn)) {
 				retVal += ctrl.ON;
 			}
 			// Check if the oppisite direction is pressed
-			if (ctrl.KEYOFF !== undefined && gec.GetKeyDown(keyOff)) {
+			if (ctrl.KEYOFF !== undefined && this.GetKeyDown(keyOff)) {
 				retVal += ctrl.OFF;
 			}
 		} else if (gec.Controls === undefined) {

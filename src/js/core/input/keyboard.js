@@ -152,9 +152,9 @@
 	 * Check if the key is in the down position
 	 * @param {any} key
 	 */
-	gec.GetKeyDown = function (key) {
-		if (key !== undefined && gec._keyStatus[key] !== undefined) {
-			return gec._keyStatus[key] === gec.StatusCode.Down;
+	gek.GetKeyDown = function (key) {
+		if (key !== undefined && gek._keyStatus[key] !== undefined) {
+			return gek._keyStatus[key] === gek.StatusCode.Down;
 		}
 		console.error("Key is not defined");
 		return false;

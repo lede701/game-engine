@@ -28,15 +28,18 @@
 		evt.addEvent('fire1');
 		evt.addEvent('fire2');
 
-		if (inp._ctrl === undefined) {
-			inp._ctrl['keyboard'] = new GEKeyboard({ parent: inp.parent });
+		var key = 'keyboard';
+		if (inp._ctrl[key] === undefined) {
+			inp._ctrl[key] = new GEKeyboard({ parent: inp.parent });
 		}
 	};
 
 	inp.GetInput = function (type) {
 		var retVal = 0;
 		if (inp._ctrl !== undefined) {
-			retVal = inp._ctrl.GetInput(type);
+			for (var key in inp._ctrl) {
+				retVal = inp._ctrl[key].GetInput(type);
+			}
 		}
 		return retVal;
 	};
